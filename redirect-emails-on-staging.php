@@ -19,11 +19,11 @@ add_filter( 'wp_mail', 'jpry_maybe_redirect_mail', 1000, 1 );
 
 /**
  * Possibly filter all mail.
- * 
- * @uses is_wpe_snapshot() Checks to determine if this is a WP Engine Staging site.
  *
  * We only apply this filter if we're on the staging site, where we generally don't want email
  * accidentally being sent out to end users.
+ * 
+ * @uses is_wpe_snapshot() Checks to determine if this is a WP Engine Staging site.
  * 
  * @param array $mail_args Array of settings for sending the message.
  * @return array The args to use for the mail message
