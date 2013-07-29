@@ -24,6 +24,7 @@ add_filter( 'wp_mail', 'jpry_maybe_redirect_mail', 1000, 1 );
  *
  * We only apply this filter if we're on the staging site, where we generally don't want email
  * accidentally being sent out to end users.
+ * 
  * @param array $mail_args Array of settings for sending the message.
  * @return array The args to use for the mail message
  */
