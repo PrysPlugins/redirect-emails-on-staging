@@ -29,9 +29,14 @@ add_filter( 'wp_mail', 'jpry_maybe_redirect_mail', 1000, 1 );
  */
 function jpry_maybe_redirect_mail( $mail_args ) {
 	if ( function_exists( 'is_wpe_snapshot' ) && is_wpe_snapshot() ) {
-		$mail_args['message'] = 'Originally to: ' . $mail_args['to'] . "\n\n" . $mail_args['message'];
-		$mail_args['subject'] = 'Redirected mail | ' . $mail_args['subject'];
-		$mail_args['to'] = get_site_option( 'admin_email', 'jeremy@does.co' );
+		$admin_email = get_site_option( 'admin_email' );
+		
+		// Only redirect email that is NOT already going to the admin
+		if ( $admin_email != $mail_args['to'] ) {
+			$mail_args['message'] = 'Originally to: ' . $mail_args['to'] . "\n\n" . $mail_args['message'];
+			$mail_args['subject'] = 'REDIRECTED MAIL | ' . $mail_args['subject'];
+			$mail_args['to'] = $admin_email;
+		}
 	}
 	return $mail_args;
 }
