@@ -28,7 +28,14 @@ Advanced installation (`mu-plugins` directory):
 
 None so far. Ask away!
 
+== Screenshots ==
+
+(none yet)
+
 == Changelog ==
 
 = 1.0 =
 * Created the plugin
+
+== Upgrade Notice ==
+
