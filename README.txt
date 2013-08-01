@@ -16,7 +16,7 @@ When using the [Staging area](http://support.wpengine.com/staging/) on WP Engine
 
 Simple installation:
 
-1. Upload the `WPE-redirect-emails-on-staging` folder to your `/wp-content/plugins/` directory
+1. Upload the `redirect-emails-on-staging` folder to your `/wp-content/plugins/` directory
 2. Activate the plugin through the "Plugins" menu in WordPress
 
 Advanced installation (`mu-plugins` directory):
