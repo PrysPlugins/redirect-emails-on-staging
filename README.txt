@@ -10,9 +10,9 @@ Redirect any emails that are sent by the staging site to the administrator of th
 
 == Description ==
 
-When using the [Staging area](http://support.wpengine.com/staging/) on WP Engine, you may want to prevent the staging version of your site from sending emails to your site users. This plugin redirects all emails to the site admin.
+When using the [Staging site](http://support.wpengine.com/staging/) on WP Engine, you may want to prevent the staging version of your site from sending emails to your site users. This plugin redirects all emails to the site admin.
 
-This plugin should be activated on your Production site. Don't worry — it won't do anything *unless* it is active on Staging site.
+This plugin should be activated on your Production site. Don't worry — it won't do anything *unless* it is active on Staging site. Once you create a new copy of your Staging site, the plugin will start taking effect there.
 
 This plugin is compatible with WordPress Multisite. If you're using it in a Multisite environment, it is recommended to either Network Activate the plugin, or follow the instructions for installing it to the `mu-plugins` directory.
 
@@ -35,6 +35,10 @@ Advanced installation (`mu-plugins` directory):
 On a normal WordPress installation, go to the Dashboard, then to Settings > General. Look for the "E-mail Address" field.
 
 On a Multisite WordPress installation, go to the Network Dashboard, then to Settings > Network Settings. Look for the "Network Admin Email" field.
+
+= What if I forget to install this plugin when I recreate my Staging Site? =
+
+It is recommended to activate this plugin on your Production site. It won't have any affect on your Production site email, and then when you go to recreate your Staging site, it will already be activated and working.
 
 == Screenshots ==
 
