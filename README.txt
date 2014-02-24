@@ -16,6 +16,8 @@ This plugin should be activated on your Production site. Don't worry — it won'
 
 This plugin is compatible with WordPress Multisite. If you're using it in a Multisite environment, it is recommended to either Network Activate the plugin, or follow the instructions for installing it to the `mu-plugins` directory.
 
+This plugin is developed on [GitHub](https://github.com/JCPry/WPE-redirect-emails-on-staging).
+
 == Installation ==
 
 Simple installation:
