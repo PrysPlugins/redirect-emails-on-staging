@@ -57,6 +57,52 @@ class JPry_Redirect_Staging_Email extends JPry_Singleton {
 				$mail_args['subject'] = 'REDIRECTED MAIL | ' . $mail_args['subject'];
 				$mail_args['to'] = $admin_email;
 			}
+
+			// Handle the CC and BCC headers
+			if ( isset( $mail_args['headers'] ) && ! empty( $mail_args['headers'] ) ) {
+
+				$ccs  = array();
+				$bccs = array();
+
+				// Ensure we have an array
+				$mail_args['headers'] = (array) $mail_args['headers'];
+
+				foreach ( $mail_args['headers'] as $num => $header ) {
+					if ( strpos( $header, ':' ) === false ) {
+						continue;
+					}
+
+					// Explode headers and content
+					list( $name, $content ) = explode( ':', trim( $header ), 2 );
+
+					// Cleanup the header name
+					$name = trim( $name );
+
+					switch ( strtolower( $name ) ) {
+
+						// Remove the header entirely
+						case 'cc':
+							$ccs = array_merge( (array) $ccs, explode( ',', $content ) );
+							break;
+						case 'bcc':
+							$bccs = array_merge( (array) $bccs, explode( ',', $content ) );
+							break;
+
+						// Continue to the next item in the array
+						default:
+							continue;
+							break;
+					}
+
+					// Now unset the header
+					unset( $mail_args[ 'headers' ][ $num ] );
+
+					// Include what was removed in the message body
+					$addition = 'CCs removed: ' . join( ', ', $ccs ) . "\n";
+					$addition .= 'BCCs removed: ' . join( ', ', $bccs ) . "\n\n";
+					$mail_args['message'] = $addition . $mail_args['message'];
+				}
+			}
 		}
 		return $mail_args;
 	}
