@@ -25,11 +25,6 @@ Simple installation:
 1. Upload the `redirect-emails-on-staging` folder to your `/wp-content/plugins/` directory
 2. Activate the plugin through the "Plugins" menu in WordPress
 
-Advanced installation (`mu-plugins` directory):
-
-1. Upload *just* the `redirect-emails-on-staging.php` file to your `/wp-content/mu-plugins/` directory
-2. That's it... the plugin is already activated! Take a look under Plugins > Must Use
-
 == Frequently Asked Questions ==
 
 = Where do I find the Site Admin email? =
