@@ -15,6 +15,13 @@ if ( ! class_exists( 'JPry_Redirect_Staging_Email', false ) ) :
 class JPry_Redirect_Staging_Email extends JPry_Singleton {
 
 	/**
+	 * The Singleton instance of this class
+	 *
+	 * @var JPry_Redirect_Staging_Email
+	 */
+	protected static $instance = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * Hook the methods of this class to the appropriate hooks in WordPress
