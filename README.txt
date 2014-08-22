@@ -2,8 +2,8 @@
 Contributors: JPry
 Tags: email, wpengine
 Requires at least: 3.5.2
-Tested up to: 3.8.1
-Stable Tag: 1.1
+Tested up to: 3.9.2
+Stable Tag: 1.2
 License: GPL2
 
 Redirect any emails that are sent by the staging site to the administrator of the site.
@@ -37,11 +37,19 @@ On a Multisite WordPress installation, go to the Network Dashboard, then to Sett
 
 It is recommended to activate this plugin on your Production site. It won't have any affect on your Production site email, and then when you go to recreate your Staging site, it will already be activated and working.
 
+= What about emails with CCs and/or BCCs? =
+
+As of version 1.2 of this plugin, CCs and BCCs will be removed entirely. The message content will include a list of the CCs and BCCs that were removed.
+
 == Screenshots ==
 
-(none yet)
+There are no screenshots for this plugin.
 
 == Changelog ==
+
+= 1.2 =
+* Remove CC and BCC headers on filtered mail.
+* Tested through WordPress version 3.9.2
 
 = 1.1 =
 * Under-the-hood change: use a class for the main plugin functionality
