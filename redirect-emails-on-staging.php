@@ -2,12 +2,12 @@
 /**
  * Plugin Name:       Redirect Emails on Staging
  * Plugin URI:        http://wordpress.org/plugins/redirect-emails-on-staging/
- * Description:       (For WP Engine only) On the Staging site, redirect all emails to the site admin. This is useful in making sure that the staging site doesn't send out confusing emails to your users.
+ * Description:       On a Staging site, redirect all emails to the site admin. This is useful in making sure that the staging site doesn't send out confusing emails to your users.
  * Version:           1.1
  * Author:            Jeremy Pry
  * Author URI:        https://jeremypry.com/
  * License:           GPL2
- * Requires at least: 3.5.2
+ * Requires at least: 5.5.0
  * Requires PHP:      5.3.2
  * Text Domain:       redirect-emails-on-staging
  */
@@ -24,6 +24,9 @@ define( 'JPRY_REDIRECT_EMAILS_ON_STAGING_VERSION', '1.1' ); // WRCS: DEFINED_VER
 add_filter(
 	'wp_mail',
 	function( $mail_args ) {
+		// Check WP environment.
+		$wp_staging = function_exists( 'wp_get_environment_type' ) && 'staging' === wp_get_environment_type();
+
 		// Check on WP Engine hosting (the original purpose of this plugin).
 		$wpe_staging = function_exists( 'is_wpe_snapshot' ) && is_wpe_snapshot();
 
@@ -31,7 +34,7 @@ add_filter(
 		$jetpack_staging = class_exists( IdentityCrisis::class ) && ( IdentityCrisis::has_identity_crisis() || IdentityCrisis::safe_mode_is_confirmed() );
 
 		// Bail if we're not in a staging situation.
-		if ( ! ( $wpe_staging || $jetpack_staging ) ) {
+		if ( ! ( $wp_staging || $wpe_staging || $jetpack_staging ) ) {
 			return $mail_args;
 		}
 
