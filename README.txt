@@ -3,6 +3,7 @@ Contributors: JPry
 Tags: email, wpengine
 Requires at least: 3.5.2
 Tested up to: 3.8.1
+Requires PHP: 5.3.2
 Stable Tag: 1.1
 License: GPL2
 
@@ -42,7 +43,7 @@ It is recommended to activate this plugin on your Production site. It won't have
 
 == Screenshots ==
 
-(none yet)
+(Not applicable to this plugin)
 
 == Changelog ==
 
