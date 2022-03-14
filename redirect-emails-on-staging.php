@@ -1,12 +1,15 @@
 <?php
 /**
- * Plugin Name: Redirect Emails on Staging
- * Plugin URI: http://wordpress.org/plugins/redirect-emails-on-staging/
- * Description: (For WP Engine only) On the Staging site, redirect all emails to the site admin. This is useful in making sure that the staging site doesn't send out confusing emails to your users.
- * Version: 1.1
- * Author: Jeremy Pry
- * Author URI: http://jeremypry.com/
- * License: GPL2
+ * Plugin Name:       Redirect Emails on Staging
+ * Plugin URI:        http://wordpress.org/plugins/redirect-emails-on-staging/
+ * Description:       (For WP Engine only) On the Staging site, redirect all emails to the site admin. This is useful in making sure that the staging site doesn't send out confusing emails to your users.
+ * Version:           1.1
+ * Author:            Jeremy Pry
+ * Author URI:        https://jeremypry.com/
+ * License:           GPL2
+ * Requires at least: 3.5.2
+ * Requires PHP:      5.3.2
+ * Text Domain:       redirect-emails-on-staging
  */
 
 use Automattic\Jetpack\Identity_Crisis as IdentityCrisis;
