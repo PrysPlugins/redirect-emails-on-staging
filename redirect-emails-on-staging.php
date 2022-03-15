@@ -12,7 +12,7 @@
  * Text Domain:       redirect-emails-on-staging
  */
 
-use Automattic\Jetpack\Identity_Crisis as IdentityCrisis;
+use Automattic\Jetpack\Status;
 
 // Prevent direct access to this file
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,19 +23,23 @@ define( 'JPRY_REDIRECT_EMAILS_ON_STAGING_VERSION', '1.1' ); // WRCS: DEFINED_VER
 
 add_filter(
 	'wp_mail',
-	function( $mail_args ) {
-		// Check WP environment.
-		$wp_staging = function_exists( 'wp_get_environment_type' ) && 'staging' === wp_get_environment_type();
+	function( $args ) {
+		// Jetpack is the most comprehensive, so use that if available.
+		if ( class_exists( Status::class ) && method_exists( Status::class, 'is_staging_site' ) ) {
+			$is_staging = ( new Status() )->is_staging_site();
+		} else {
+			// Check WP environment.
+			$wp_staging = function_exists( 'wp_get_environment_type' ) && 'staging' === wp_get_environment_type();
 
-		// Check on WP Engine hosting (the original purpose of this plugin).
-		$wpe_staging = function_exists( 'is_wpe_snapshot' ) && is_wpe_snapshot();
+			// Check on WP Engine hosting (the original purpose of this plugin).
+			$wpe_staging = function_exists( 'is_wpe_snapshot' ) && is_wpe_snapshot();
 
-		// Check with Jetpack.
-		$jetpack_staging = class_exists( IdentityCrisis::class ) && ( IdentityCrisis::has_identity_crisis() || IdentityCrisis::safe_mode_is_confirmed() );
+			$is_staging = $wp_staging || $wpe_staging;
+		}
 
 		// Bail if we're not in a staging situation.
-		if ( ! ( $wp_staging || $wpe_staging || $jetpack_staging ) ) {
-			return $mail_args;
+		if ( ! $is_staging ) {
+			return $args;
 		}
 
 		/**
@@ -48,27 +52,84 @@ add_filter(
 		$email = apply_filters( 'jpry_redirect_staging_emails_email', get_site_option( 'admin_email' ) );
 
 		// If the email is already to the admin, then no need to modify anything.
-		if ( $email === $mail_args['to'] ) {
-			return $mail_args;
+		if ( $email === $args['to'] ) {
+			return $args;
 		}
 
 		// We've established that we need to modify the email arguments, so let's do so.
-		$mail_args['message'] = sprintf(
+		$args['message'] = sprintf(
 			/* translators: 1: original email address, 2: the original message */
 			esc_html__( "Originally sent to: %1\$s\n\n%2\$s", 'redirect-emails-on-staging' ),
-			$mail_args['to'],
-			$mail_args['message']
+			$args['to'],
+			$args['message']
 		);
 
-		$mail_args['subject'] = sprintf(
+		$args['subject'] = sprintf(
 			/* translators: %s is the original email subject */
 			esc_html__( 'REDIRECTED EMAIL | %s', 'redirect-emails-on-staging' ),
-			$mail_args['subject']
+			$args['subject']
 		);
 
-		$mail_args['to'] = $email;
+		$args['to'] = $email;
 
-		return $mail_args;
+		// Try to handle CC and BCC headers. If there aren't any headers, bail early.
+		if ( empty( $args['headers'] ) ) {
+			return $args;
+		}
+
+		$ccs = $bccs = [];
+
+		$headers = (array) $args['headers'];
+		foreach ( $headers as $index => $header ) {
+			if ( false === strpos( $header, ':' ) ) {
+				continue;
+			}
+
+			list( $name, $content ) = explode( ':', trim( $header ), 2 );
+
+			$name = trim( $name );
+
+			switch( strtolower( $name ) ) {
+				case 'cc':
+					$ccs = array_merge( $ccs, explode( ',', $content ) );
+					break;
+
+				case 'bcc':
+					$bccs = array_merge( $bccs, explode( ',', $content ) );
+					break;
+
+				default:
+					continue 2;
+			}
+
+			// If we got this far, remove the header from the array.
+			unset( $headers[ $index] );
+		}
+
+		// Update the headers array.
+		$args['headers'] = $headers;
+
+		// Add a note to the message body about what was removed.
+		$additional_message = '';
+		if ( ! empty( $ccs ) ) {
+			$additional_message .= sprintf(
+				/* translators: %s is the comma-separated list of any CC emails removed */
+				esc_html__( 'CCs removed: %s', 'redirect-emails-on-staging' ),
+				join( ', ', $ccs )
+			) . PHP_EOL;
+		}
+
+		if ( ! empty( $bccs ) ) {
+			$additional_message .= sprintf(
+				/* translators: %s is the comma-separated list of any BCC emails removed */
+				esc_html__( 'BCCs removed: %s', 'redirect-emails-on-staging' ),
+				join( ', ', $bccs )
+			) . PHP_EOL;
+		}
+
+		$args['message'] = $additional_message . $args['message'];
+
+		return $args;
 	},
 	99999
 );
