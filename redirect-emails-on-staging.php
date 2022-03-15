@@ -12,7 +12,7 @@
  * Text Domain:       redirect-emails-on-staging
  */
 
-use Automattic\Jetpack\Identity_Crisis as IdentityCrisis;
+use Automattic\Jetpack\Status;
 
 // Prevent direct access to this file
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,18 +24,22 @@ define( 'JPRY_REDIRECT_EMAILS_ON_STAGING_VERSION', '1.1' ); // WRCS: DEFINED_VER
 add_filter(
 	'wp_mail',
 	function( $mail_args ) {
-		// Check WP environment.
-		$wp_staging = function_exists( 'wp_get_environment_type' ) && 'staging' === wp_get_environment_type();
+		// Jetpack is the most comprehensive, so use that if available.
+		if ( class_exists( Status::class ) && method_exists( Status::class, 'is_staging_site' ) ) {
+			$is_staging = ( new Status() )->is_staging_site();
+		} else {
+			// Check WP environment.
+			$wp_staging = function_exists( 'wp_get_environment_type' ) && 'staging' === wp_get_environment_type();
 
-		// Check on WP Engine hosting (the original purpose of this plugin).
-		$wpe_staging = function_exists( 'is_wpe_snapshot' ) && is_wpe_snapshot();
+			// Check on WP Engine hosting (the original purpose of this plugin).
+			$wpe_staging = function_exists( 'is_wpe_snapshot' ) && is_wpe_snapshot();
 
-		// Check with Jetpack.
-		$jetpack_staging = class_exists( IdentityCrisis::class ) && ( IdentityCrisis::has_identity_crisis() || IdentityCrisis::safe_mode_is_confirmed() );
+			$is_staging = $wp_staging || $wpe_staging;
+		}
 
 		// Bail if we're not in a staging situation.
-		if ( ! ( $wp_staging || $wpe_staging || $jetpack_staging ) ) {
-			return $mail_args;
+		if ( ! $is_staging ) {
+			return $args;
 		}
 
 		/**
