@@ -1,0 +1,28 @@
+{
+	"name": "redirect-emails-on-staging",
+	"title": "Redirect Emails on Staging",
+	"license": "GPL-2.0-or-later",
+	"version": "1.1",
+	"description": "Redirect any emails that are sent by the staging site to the administrator of the site.",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:PrysPlugins/WPE-redirect-emails-on-staging.git"
+	},
+	"scripts": {
+		"prearchive": "rm -rf vendor && composer install --no-dev && composer dump-autoload -o",
+		"archive": "composer archive --file=$npm_package_name --format=zip",
+		"postarchive": "rm -rf $npm_package_name && unzip $npm_package_name.zip -d $npm_package_name && rm $npm_package_name.zip && zip -r $npm_package_name.zip $npm_package_name && rm -rf $npm_package_name",
+		"prebuild": "composer install",
+		"build": "npm run i18n",
+		"postbuild": "npm run archive",
+		"i18n": "WP_CLI_PHP_ARGS='-d memory_limit=2048M' ./vendor/bin/wp i18n make-pot ./ languages/$npm_package_name.pot --slug=$npm_package_name --domain=$npm_package_name --exclude=node_modules,vendor",
+		"lint": "npm run lint:php",
+		"lint:php": "vendor/bin/phpcs"
+	},
+	"config": {
+		"wp_org_slug": "redirect-emails-on-staging",
+		"version_replace_paths": [
+			"redirect-emails-on-staging.php"
+		]
+	}
+}
