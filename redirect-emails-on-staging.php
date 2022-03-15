@@ -23,7 +23,7 @@ define( 'JPRY_REDIRECT_EMAILS_ON_STAGING_VERSION', '1.1' ); // WRCS: DEFINED_VER
 
 add_filter(
 	'wp_mail',
-	function( $mail_args ) {
+	function( $args ) {
 		// Jetpack is the most comprehensive, so use that if available.
 		if ( class_exists( Status::class ) && method_exists( Status::class, 'is_staging_site' ) ) {
 			$is_staging = ( new Status() )->is_staging_site();
@@ -52,27 +52,27 @@ add_filter(
 		$email = apply_filters( 'jpry_redirect_staging_emails_email', get_site_option( 'admin_email' ) );
 
 		// If the email is already to the admin, then no need to modify anything.
-		if ( $email === $mail_args['to'] ) {
-			return $mail_args;
+		if ( $email === $args['to'] ) {
+			return $args;
 		}
 
 		// We've established that we need to modify the email arguments, so let's do so.
-		$mail_args['message'] = sprintf(
+		$args['message'] = sprintf(
 			/* translators: 1: original email address, 2: the original message */
 			esc_html__( "Originally sent to: %1\$s\n\n%2\$s", 'redirect-emails-on-staging' ),
-			$mail_args['to'],
-			$mail_args['message']
+			$args['to'],
+			$args['message']
 		);
 
-		$mail_args['subject'] = sprintf(
+		$args['subject'] = sprintf(
 			/* translators: %s is the original email subject */
 			esc_html__( 'REDIRECTED EMAIL | %s', 'redirect-emails-on-staging' ),
-			$mail_args['subject']
+			$args['subject']
 		);
 
-		$mail_args['to'] = $email;
+		$args['to'] = $email;
 
-		return $mail_args;
+		return $args;
 	},
 	99999
 );
