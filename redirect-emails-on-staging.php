@@ -72,6 +72,63 @@ add_filter(
 
 		$args['to'] = $email;
 
+		// Try to handle CC and BCC headers. If there aren't any headers, bail early.
+		if ( empty( $args['headers'] ) ) {
+			return $args;
+		}
+
+		$ccs = $bccs = [];
+
+		$headers = (array) $args['headers'];
+		foreach ( $headers as $index => $header ) {
+			if ( false === strpos( $header, ':' ) ) {
+				continue;
+			}
+
+			list( $name, $content ) = explode( ':', trim( $header ), 2 );
+
+			$name = trim( $name );
+
+			switch( strtolower( $name ) ) {
+				case 'cc':
+					$ccs = array_merge( $ccs, explode( ',', $content ) );
+					break;
+
+				case 'bcc':
+					$bccs = array_merge( $bccs, explode( ',', $content ) );
+					break;
+
+				default:
+					continue 2;
+			}
+
+			// If we got this far, remove the header from the array.
+			unset( $headers[ $index] );
+		}
+
+		// Update the headers array.
+		$args['headers'] = $headers;
+
+		// Add a note to the message body about what was removed.
+		$additional_message = '';
+		if ( ! empty( $ccs ) ) {
+			$additional_message .= sprintf(
+				/* translators: %s is the comma-separated list of any CC emails removed */
+				esc_html__( 'CCs removed: %s', 'redirect-emails-on-staging' ),
+				join( ', ', $ccs )
+			) . PHP_EOL;
+		}
+
+		if ( ! empty( $bccs ) ) {
+			$additional_message .= sprintf(
+				/* translators: %s is the comma-separated list of any BCC emails removed */
+				esc_html__( 'BCCs removed: %s', 'redirect-emails-on-staging' ),
+				join( ', ', $bccs )
+			) . PHP_EOL;
+		}
+
+		$args['message'] = $additional_message . $args['message'];
+
 		return $args;
 	},
 	99999
