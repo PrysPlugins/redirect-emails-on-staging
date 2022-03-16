@@ -89,7 +89,7 @@ add_filter(
 
 			$name = trim( $name );
 
-			switch( strtolower( $name ) ) {
+			switch ( strtolower( $name ) ) {
 				case 'cc':
 					$ccs = array_merge( $ccs, explode( ',', $content ) );
 					break;
@@ -103,7 +103,7 @@ add_filter(
 			}
 
 			// If we got this far, remove the header from the array.
-			unset( $headers[ $index] );
+			unset( $headers[ $index ] );
 		}
 
 		// Update the headers array.

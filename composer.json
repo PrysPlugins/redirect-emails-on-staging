@@ -1,0 +1,16 @@
+{
+    "name": "prysplugins/redirect-emails-on-staging",
+    "description": "Redirect any emails that are sent by the staging site to the administrator of the site.",
+    "license": "GPL2",
+    "authors": [
+        {
+            "name": "Jeremy Pry",
+            "email": "jeremy.pry@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "wp-coding-standards/wpcs": "^2.3",
+        "wp-cli/i18n-command": "^2.2"
+    }
+}
