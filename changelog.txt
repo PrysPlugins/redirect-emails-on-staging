@@ -1,0 +1,9 @@
+*** Redirect Emails on Staging Changelog ***
+
+= 1.1.0 =
+* Under-the-hood change: use a class for the main plugin functionality
+* Check PHP version with an activation hook
+* Update the "Tested up to" tag
+
+= 1.0.0 =
+* Created the plugin
