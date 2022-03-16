@@ -3,7 +3,7 @@
  * Plugin Name:       Redirect Emails on Staging
  * Plugin URI:        http://wordpress.org/plugins/redirect-emails-on-staging/
  * Description:       On a Staging site, redirect all emails to the site admin. This is useful in making sure that the staging site doesn't send out confusing emails to your users.
- * Version:           1.1
+ * Version:           1.1.0
  * Author:            Jeremy Pry
  * Author URI:        https://jeremypry.com/
  * License:           GPL2
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( "You can't do anything by accessing this file directly." );
 }
 
-define( 'JPRY_REDIRECT_EMAILS_ON_STAGING_VERSION', '1.1' ); // WRCS: DEFINED_VERSION.
+define( 'JPRY_REDIRECT_EMAILS_ON_STAGING_VERSION', '1.1.0' ); // WRCS: DEFINED_VERSION.
 
 add_filter(
 	'wp_mail',

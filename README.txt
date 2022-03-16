@@ -4,7 +4,7 @@ Tags: email, wpengine
 Requires at least: 3.5.2
 Tested up to: 3.8.1
 Requires PHP: 5.3.2
-Stable Tag: 1.1
+Stable Tag: 1.1.0
 License: GPL2
 
 Redirect any emails that are sent by the staging site to the administrator of the site.
@@ -47,12 +47,12 @@ It is recommended to activate this plugin on your Production site. It won't have
 
 == Changelog ==
 
-= 1.1 =
+= 1.1.0 =
 * Under-the-hood change: use a class for the main plugin functionality
 * Check PHP version with an activation hook
 * Update the "Tested up to" tag
 
-= 1.0 =
+= 1.0.0 =
 * Created the plugin
 
 == Upgrade Notice ==
