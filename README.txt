@@ -47,6 +47,14 @@ It is recommended to activate this plugin on your Production site. It won't have
 
 == Changelog ==
 
+= 1.2.0 - 2022-03-18 =
+* Add - Native wp_get_environment_type() support.
+* Add - Support for checking with Jetpack for staging.
+* Add - Support for modifying CC and BCC lists in emails.
+* Dev - Add separate changelog file.
+* Dev - add automated build process.
+* Tweak - WP 5.9 compatibility.
+
 = 1.1.0 =
 * Under-the-hood change: use a class for the main plugin functionality
 * Check PHP version with an activation hook
