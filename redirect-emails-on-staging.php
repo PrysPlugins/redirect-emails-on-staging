@@ -8,6 +8,7 @@
  * Author URI:        https://jeremypry.com/
  * License:           GPL2
  * Requires at least: 5.5.0
+ * Tested up to:      3.8.1
  * Requires PHP:      5.3.2
  * Text Domain:       redirect-emails-on-staging
  */
