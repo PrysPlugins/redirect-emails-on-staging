@@ -2,9 +2,9 @@
 Contributors: JPry
 Tags: email, wpengine
 Requires at least: 3.5.2
-Tested up to: 3.8.1
+Tested up to: 5.9
 Requires PHP: 5.3.2
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPL2
 
 Redirect any emails that are sent by the staging site to the administrator of the site.
